@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
-export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState('signin')
+export default function LoginPage() {
+  const [activeTab, setActiveTab] = useState('signin') // 'signin' or 'signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -19,6 +19,7 @@ export default function AuthPage() {
 
     try {
       if (activeTab === 'signup') {
+        // Handle sign up
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
@@ -26,10 +27,18 @@ export default function AuthPage() {
 
         if (signUpError) throw signUpError
 
-        if (data.user) {
+        // Check if email confirmation is required
+        if (data.user && !data.session) {
+          setError('Please check your email to confirm your account.')
+          setLoading(false)
+          return
+        }
+
+        if (data.user && data.session) {
           router.push('/dashboard')
         }
       } else {
+        // Handle sign in
         const { data, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -48,25 +57,30 @@ export default function AuthPage() {
     }
   }
 
+  const switchTab = (tab) => {
+    setActiveTab(tab)
+    setError('')
+    setEmail('')
+    setPassword('')
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
+          {/* Title */}
           <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
             Welcome to Knekt
           </h1>
 
           {/* Tabs */}
-          <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+          <div className="flex space-x-1 mb-8 bg-gray-100 p-1 rounded-lg">
             <button
               type="button"
-              onClick={() => {
-                setActiveTab('signin')
-                setError('')
-              }}
+              onClick={() => switchTab('signin')}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'signin'
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-[#3b82f6] shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -74,13 +88,10 @@ export default function AuthPage() {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setActiveTab('signup')
-                setError('')
-              }}
+              onClick={() => switchTab('signup')}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'signup'
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-[#3b82f6] shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -92,7 +103,7 @@ export default function AuthPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Error Message */}
             {error && (
-              <div className="rounded-md bg-red-50 p-4">
+              <div className="rounded-md bg-red-50 border border-red-200 p-4">
                 <p className="text-sm text-red-800">{error}</p>
               </div>
             )}
@@ -110,7 +121,7 @@ export default function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] outline-none transition-colors"
                 placeholder="you@example.com"
                 disabled={loading}
               />
@@ -129,7 +140,7 @@ export default function AuthPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] outline-none transition-colors"
                 placeholder="••••••••"
                 disabled={loading}
                 minLength={6}
@@ -140,7 +151,7 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#3b82f6] hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b82f6] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? (
                 <span className="flex items-center">
