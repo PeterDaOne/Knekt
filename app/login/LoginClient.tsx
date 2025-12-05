@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import Logo from '../components/Logo'
+import { LogoDark, LogoOrange } from '../components/Logo'
 
 export default function LoginClient() {
   const searchParams = useSearchParams()
@@ -19,7 +19,6 @@ export default function LoginClient() {
   const isClient = role === 'client'
   const primaryColor = isClient ? '#F97316' : '#1F2937'
   const accentColor = isClient ? '#1F2937' : '#F97316'
-  const logoColor = isClient ? '#1F2937' : '#F97316'
   const gradientStart = isClient ? '#F97316' : '#1F2937'
   const gradientEnd = isClient ? '#ea580c' : '#111827'
 
@@ -86,7 +85,9 @@ export default function LoginClient() {
         <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <Logo color={logoColor} className="w-20 h-20" />
+            <div className="w-20 h-20">
+              {isClient ? <LogoDark /> : <LogoOrange />}
+            </div>
           </div>
 
           {/* Title */}
