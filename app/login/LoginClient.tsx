@@ -84,8 +84,8 @@ export default function LoginClient() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Logo */}
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20">
+          <div className="flex justify-center items-center mb-6">
+            <div className="w-12 h-12 flex items-center justify-center">
               {isClient ? <LogoOrange /> : <LogoDark />}
             </div>
           </div>

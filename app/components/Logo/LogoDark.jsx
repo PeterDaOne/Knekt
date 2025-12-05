@@ -3,11 +3,14 @@
 export default function LogoDark(props) {
   return (
     <svg
-      width="159"
-      height="163"
+      width="100%"
+      height="100%"
       viewBox="0 0 159 163"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      shapeRendering="geometricPrecision"
+      style={{ display: 'block' }}
       {...props}
     >
       <g filter="url(#dark_shadow)">
