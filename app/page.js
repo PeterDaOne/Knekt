@@ -26,14 +26,14 @@ export default function RoleSelectionPage() {
             <LogoDark className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            I have a problem.
+            I need a solution.
           </h2>
         </div>
       </div>
 
       {/* Right Side - Expert / Solver */}
       <div
-        onClick={() => handleRoleSelect('expert')}
+        onClick={() => handleRoleSelect('solver')}
         className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen z-10"
         style={{
           background: 'linear-gradient(to left, #1F2937 0%, #111827 50%, rgba(17, 24, 39, 0.5) 90%, transparent 100%)',

@@ -86,7 +86,7 @@ export default function LoginClient() {
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <div className="w-20 h-20">
-              {isClient ? <LogoDark /> : <LogoOrange />}
+              {isClient ? <LogoOrange /> : <LogoDark />}
             </div>
           </div>
 
@@ -95,7 +95,7 @@ export default function LoginClient() {
             Welcome to Knekt
           </h1>
           <p className="text-center text-gray-600 mb-8 text-sm">
-            {isClient ? 'I have a problem.' : 'I solve problems.'}
+            {isClient ? 'I need a solution.' : 'I solve problems.'}
           </p>
 
           {/* Tabs */}
