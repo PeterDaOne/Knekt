@@ -1,16 +1,27 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import Logo from '../components/Logo'
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const role = searchParams.get('role') || 'client' // Default to client if no role specified
   const [activeTab, setActiveTab] = useState('signin') // 'signin' or 'signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+
+  // Theme configuration based on role
+  const isClient = role === 'client'
+  const primaryColor = isClient ? '#F97316' : '#1F2937'
+  const accentColor = isClient ? '#1F2937' : '#F97316'
+  const logoColor = isClient ? '#1F2937' : '#F97316'
+  const gradientStart = isClient ? '#F97316' : '#1F2937'
+  const gradientEnd = isClient ? '#ea580c' : '#111827'
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -65,24 +76,41 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div 
+      className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8 transition-all duration-500"
+      style={{
+        background: `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`,
+      }}
+    >
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 animate-in fade-in duration-500">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <Logo color={logoColor} className="w-20 h-20" />
+          </div>
+
           {/* Title */}
-          <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+          <h1 className="text-3xl font-bold text-center mb-2" style={{ color: primaryColor }}>
             Welcome to Knekt
           </h1>
+          <p className="text-center text-gray-600 mb-8 text-sm">
+            {isClient ? 'I have a problem.' : 'I solve problems.'}
+          </p>
 
           {/* Tabs */}
-          <div className="flex space-x-1 mb-8 bg-gray-100 p-1 rounded-lg">
+          <div 
+            className="flex space-x-1 mb-8 p-1 rounded-lg"
+            style={{ backgroundColor: isClient ? '#FED7AA' : '#E5E7EB' }}
+          >
             <button
               type="button"
               onClick={() => switchTab('signin')}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'signin'
-                  ? 'bg-white text-[#3b82f6] shadow-sm'
+                  ? 'bg-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              style={activeTab === 'signin' ? { color: primaryColor } : {}}
             >
               Sign In
             </button>
@@ -91,9 +119,10 @@ export default function LoginPage() {
               onClick={() => switchTab('signup')}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'signup'
-                  ? 'bg-white text-[#3b82f6] shadow-sm'
+                  ? 'bg-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              style={activeTab === 'signup' ? { color: primaryColor } : {}}
             >
               Sign Up
             </button>
@@ -110,7 +139,7 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: accentColor }}>
                 Email
               </label>
               <input
@@ -121,7 +150,19 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] outline-none transition-colors"
+                className="w-full px-4 py-3 border rounded-lg outline-none transition-all focus:ring-2"
+                style={{
+                  borderColor: '#D1D5DB',
+                  '--tw-ring-color': primaryColor,
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = primaryColor
+                  e.target.style.boxShadow = `0 0 0 2px ${primaryColor}40`
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#D1D5DB'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="you@example.com"
                 disabled={loading}
               />
@@ -129,7 +170,7 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: accentColor }}>
                 Password
               </label>
               <input
@@ -140,7 +181,19 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] outline-none transition-colors"
+                className="w-full px-4 py-3 border rounded-lg outline-none transition-all focus:ring-2"
+                style={{
+                  borderColor: '#D1D5DB',
+                  '--tw-ring-color': primaryColor,
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = primaryColor
+                  e.target.style.boxShadow = `0 0 0 2px ${primaryColor}40`
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#D1D5DB'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="••••••••"
                 disabled={loading}
                 minLength={6}
@@ -151,7 +204,21 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#3b82f6] hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b82f6] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:scale-[1.02]"
+              style={{
+                backgroundColor: primaryColor,
+                '--tw-ring-color': primaryColor,
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.target.style.backgroundColor = isClient ? '#ea580c' : '#111827'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.target.style.backgroundColor = primaryColor
+                }
+              }}
             >
               {loading ? (
                 <span className="flex items-center">

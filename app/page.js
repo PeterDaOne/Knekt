@@ -1,176 +1,52 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import Logo from './components/Logo'
 
-export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState('signin')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+export default function RoleSelectionPage() {
   const router = useRouter()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    try {
-      if (activeTab === 'signup') {
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        })
-
-        if (signUpError) throw signUpError
-
-        if (data.user) {
-          router.push('/dashboard')
-        }
-      } else {
-        const { data, error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-
-        if (signInError) throw signInError
-
-        if (data.user) {
-          router.push('/dashboard')
-        }
-      }
-    } catch (err) {
-      setError(err.message || 'An error occurred. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+  const handleRoleSelect = (role) => {
+    router.push(`/login?role=${role}`)
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
-          <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Welcome to Knekt
-          </h1>
-
-          {/* Tabs */}
-          <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('signin')
-                setError('')
-              }}
-              className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
-                activeTab === 'signin'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('signup')
-                setError('')
-              }}
-              className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
-                activeTab === 'signup'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Sign Up
-            </button>
+    <div className="flex min-h-screen overflow-hidden flex-col md:flex-row">
+      {/* Left Side - Client / User With a Problem */}
+      <div
+        onClick={() => handleRoleSelect('client')}
+        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen"
+        style={{
+          background: 'linear-gradient(135deg, #F97316 0%, #ea580c 100%)',
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
+        <div className="z-10 flex flex-col items-center justify-center space-y-6 md:space-y-8 px-8 text-center">
+          <div className="transform transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-2xl">
+            <Logo color="#1F2937" className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40" />
           </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+            I have a problem.
+          </h2>
+        </div>
+      </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Error Message */}
-            {error && (
-              <div className="rounded-md bg-red-50 p-4">
-                <p className="text-sm text-red-800">{error}</p>
-              </div>
-            )}
-
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                placeholder="you@example.com"
-                disabled={loading}
-              />
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete={activeTab === 'signup' ? 'new-password' : 'current-password'}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                placeholder="••••••••"
-                disabled={loading}
-                minLength={6}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {loading ? (
-                <span className="flex items-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  {activeTab === 'signup' ? 'Creating account...' : 'Signing in...'}
-                </span>
-              ) : (
-                'Continue'
-              )}
-            </button>
-          </form>
+      {/* Right Side - Expert / Solver */}
+      <div
+        onClick={() => handleRoleSelect('expert')}
+        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen"
+        style={{
+          background: 'linear-gradient(135deg, #1F2937 0%, #111827 100%)',
+        }}
+      >
+        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
+        <div className="z-10 flex flex-col items-center justify-center space-y-6 md:space-y-8 px-8 text-center">
+          <div className="transform transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-2xl">
+            <Logo color="#F97316" className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40" />
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+            I solve problems.
+          </h2>
         </div>
       </div>
     </div>
