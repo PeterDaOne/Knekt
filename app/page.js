@@ -11,13 +11,13 @@ export default function RoleSelectionPage() {
   }
 
   return (
-    <div className="flex min-h-screen overflow-hidden flex-col md:flex-row">
+    <div className="flex min-h-screen overflow-hidden flex-col md:flex-row relative">
       {/* Left Side - Client / User With a Problem */}
       <div
         onClick={() => handleRoleSelect('client')}
-        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen"
+        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen z-10"
         style={{
-          background: 'linear-gradient(135deg, #F97316 0%, #ea580c 100%)',
+          background: 'linear-gradient(to right, #F97316 0%, #ea580c 50%, rgba(234, 88, 12, 0.5) 90%, transparent 100%)',
         }}
       >
         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
@@ -34,9 +34,9 @@ export default function RoleSelectionPage() {
       {/* Right Side - Expert / Solver */}
       <div
         onClick={() => handleRoleSelect('expert')}
-        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen"
+        className="flex-1 flex flex-col items-center justify-center relative cursor-pointer group transition-all duration-500 hover:scale-[1.02] min-h-[50vh] md:min-h-screen z-10"
         style={{
-          background: 'linear-gradient(135deg, #1F2937 0%, #111827 100%)',
+          background: 'linear-gradient(to left, #1F2937 0%, #111827 50%, rgba(17, 24, 39, 0.5) 90%, transparent 100%)',
         }}
       >
         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300" />

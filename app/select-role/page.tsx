@@ -11,12 +11,12 @@ export default function SelectRolePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="flex min-h-screen flex-col md:flex-row relative">
       {/* Client Side - Left */}
       <div
-        className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group"
+        className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group z-10"
         style={{
-          background: 'linear-gradient(135deg, #F97316 0%, #ea580c 100%)',
+          background: 'linear-gradient(to right, #F97316 0%, #ea580c 50%, rgba(234, 88, 12, 0.5) 90%, transparent 100%)',
         }}
         onClick={() => handleRoleSelect('client')}
       >
@@ -37,13 +37,13 @@ export default function SelectRolePage() {
       </div>
 
       {/* Divider - Only visible on mobile */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent md:hidden" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent md:hidden z-20" />
 
       {/* Solver Side - Right */}
       <div
-        className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group"
+        className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group z-10"
         style={{
-          background: 'linear-gradient(135deg, #1F2937 0%, #111827 100%)',
+          background: 'linear-gradient(to left, #1F2937 0%, #111827 50%, rgba(17, 24, 39, 0.5) 90%, transparent 100%)',
         }}
         onClick={() => handleRoleSelect('solver')}
       >
