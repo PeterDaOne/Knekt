@@ -16,7 +16,7 @@ export default function SelectRolePage() {
       <div
         className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group z-10"
         style={{
-          background: 'linear-gradient(to right, #F97316 0%, #ea580c 50%, rgba(234, 88, 12, 0.5) 90%, transparent 100%)',
+          background: 'linear-gradient(to right, #F97316 0%, #F97316 30%, rgba(249, 115, 22, 0.85) 50%, rgba(249, 115, 22, 0.6) 70%, rgba(249, 115, 22, 0.3) 85%, rgba(249, 115, 22, 0.1) 95%, transparent 100%)',
         }}
         onClick={() => handleRoleSelect('client')}
       >
@@ -28,7 +28,7 @@ export default function SelectRolePage() {
             </div>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center transition-all duration-300 group-hover:drop-shadow-lg max-w-md">
-            I have a problem.
+            I need a solution.
           </h2>
           <p className="text-white/80 text-sm md:text-base mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Click to continue
@@ -43,7 +43,7 @@ export default function SelectRolePage() {
       <div
         className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 cursor-pointer transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden group z-10"
         style={{
-          background: 'linear-gradient(to left, #1F2937 0%, #111827 50%, rgba(17, 24, 39, 0.5) 90%, transparent 100%)',
+          background: 'linear-gradient(to left, #1F2937 0%, #1F2937 30%, rgba(31, 41, 55, 0.85) 50%, rgba(31, 41, 55, 0.6) 70%, rgba(31, 41, 55, 0.3) 85%, rgba(31, 41, 55, 0.1) 95%, transparent 100%)',
         }}
         onClick={() => handleRoleSelect('solver')}
       >
