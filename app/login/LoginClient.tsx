@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import Logo from '../components/Logo'
 
-export default function LoginPage() {
+export default function LoginClient() {
   const searchParams = useSearchParams()
   const role = searchParams.get('role') || 'client' // Default to client if no role specified
   const [activeTab, setActiveTab] = useState('signin') // 'signin' or 'signup'
@@ -23,7 +23,7 @@ export default function LoginPage() {
   const gradientStart = isClient ? '#F97316' : '#1F2937'
   const gradientEnd = isClient ? '#ea580c' : '#111827'
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -61,14 +61,14 @@ export default function LoginPage() {
           router.push('/dashboard')
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const switchTab = (tab) => {
+  const switchTab = (tab: 'signin' | 'signup') => {
     setActiveTab(tab)
     setError('')
     setEmail('')
@@ -77,13 +77,13 @@ export default function LoginPage() {
 
   return (
     <div 
-      className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8 transition-all duration-500"
+      className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8 transition-all duration-700 ease-in-out"
       style={{
         background: `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`,
       }}
     >
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 animate-in fade-in duration-500">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <Logo color={logoColor} className="w-20 h-20" />
@@ -154,7 +154,7 @@ export default function LoginPage() {
                 style={{
                   borderColor: '#D1D5DB',
                   '--tw-ring-color': primaryColor,
-                }}
+                } as React.CSSProperties}
                 onFocus={(e) => {
                   e.target.style.borderColor = primaryColor
                   e.target.style.boxShadow = `0 0 0 2px ${primaryColor}40`
@@ -185,7 +185,7 @@ export default function LoginPage() {
                 style={{
                   borderColor: '#D1D5DB',
                   '--tw-ring-color': primaryColor,
-                }}
+                } as React.CSSProperties}
                 onFocus={(e) => {
                   e.target.style.borderColor = primaryColor
                   e.target.style.boxShadow = `0 0 0 2px ${primaryColor}40`
@@ -208,15 +208,15 @@ export default function LoginPage() {
               style={{
                 backgroundColor: primaryColor,
                 '--tw-ring-color': primaryColor,
-              }}
+              } as React.CSSProperties}
               onMouseEnter={(e) => {
                 if (!loading) {
-                  e.target.style.backgroundColor = isClient ? '#ea580c' : '#111827'
+                  e.currentTarget.style.backgroundColor = isClient ? '#ea580c' : '#111827'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!loading) {
-                  e.target.style.backgroundColor = primaryColor
+                  e.currentTarget.style.backgroundColor = primaryColor
                 }
               }}
             >
